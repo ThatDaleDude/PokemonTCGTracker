@@ -1,0 +1,56 @@
+﻿@page "/Set"
+@using PTCGTracker.Services
+@using PTCGTracker.Components
+@inject ISetService SetService
+
+<div class="set-title">
+    <h3>Cards in @SetName set</h3>
+
+    <MudIconButton Icon="@GetStarIcon()"
+                   Color="Color.Warning"
+                   OnClick="ToggleFavourite"
+                   Class="mb-2"/>
+</div>
+
+<MudText>
+    @CardModels.Count(x => x.Collected) / @CardModels.Count collected
+</MudText>
+
+<MudText>
+    @(CardModels.Count - CardModels.Count(x => x.Collected)) remaining
+</MudText>
+
+<div class="row pt-3">
+    <div class="col-6">
+        <MudTextField @bind-Value="SearchText"
+                      Placeholder="Search card by name..."
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Variant="Variant.Outlined"
+                      Class="mb-5"
+                      Immediate="true" />
+    </div>
+    
+    <div class="col-3">
+        <MudCheckBox T="bool" @bind-Value="MissingCardsFilter"
+                     Color="Color.Primary" 
+                     Label="Missing cards" />
+    </div>
+</div>
+
+
+
+<div class="d-flex align-items-center justify-content-center">
+    <MudGrid>
+        @foreach (var card in FilteredCards)
+        {
+            <MudItem lg="3">
+                <PokemonCard Name="@card.Name"
+                             ImageUrl="@card.Image"
+                             PokedexId="@card.PokedexId"
+                             SetId = "@SetId"
+                             Collected="@card.Collected" />
+            </MudItem>
+        }
+    </MudGrid>
+</div>

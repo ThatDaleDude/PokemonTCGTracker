@@ -1,0 +1,15 @@
+﻿<div style="position: relative;">
+    <MudLink Href="@Link">
+        <MudPaper Outlined="true" Class="pa-16 tile">
+            <MudImage Src="@ImageUrl.ToString()" Alt="@Name" Class="tile-image" />
+            
+            @if (IsFavourite)
+            {
+                <MudIcon Icon="@Icons.Material.Filled.Star"
+                         Color="Color.Warning"
+                         Size="Size.Small"
+                         Class="bottom-right" />
+            }
+        </MudPaper>
+    </MudLink>
+</div>

@@ -1,0 +1,54 @@
+﻿@page "/"
+@using PTCGTracker.Services
+@using PTCGTracker.Components
+@inject ISetService SetService
+@inject NavigationManager Navigation
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Select a set</h1>
+
+<div class="row">
+    <div class="col-6">
+        <MudTextField @bind-Value="SearchText"
+                      Placeholder="Search set by name..."
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Variant="Variant.Outlined"
+                      Class="mb-5"
+                      Immediate="true"
+                      OnBlur="@(async _ => await OnSearchChangedAsync())"
+                      OnKeyDown="@(async x =>
+                                 {
+                                     if (x.Key == "Enter") await OnSearchChangedAsync();
+                                 })" />
+    </div>
+    
+    <div class="col-6">
+        <MudCheckBox T="bool" @bind-Value="FavouriteSetsFilter"
+                     Color="Color.Primary" 
+                     Label="Favourites only" />
+    </div>
+</div>
+
+
+<MudPagination Color="Color.Primary"
+               Class="pb-5 d-flex justify-content-center"
+               Count="@((int)Math.Ceiling(TotalSets / (double)PageSize))"
+               Selected="CurrentPage"
+               SelectedChanged="@(async page =>
+                                {
+                                    CurrentPage = page;
+                                    await LoadSetsAsync();
+                                })" />
+
+<div class="d-flex align-items-center justify-content-center">
+    <MudGrid>
+        @foreach (var set in FilteredSets)
+        {
+            <MudItem lg="3">
+                <TileWithImage Name="@set.Name" ImageUrl="@set.ImageUrl" Link="@set.Link" IsFavourite="@set.IsFavourite" />
+            </MudItem>
+        }
+    </MudGrid>
+</div>

@@ -1,0 +1,13 @@
+﻿@using PTCGTracker.Services
+@inject ICardService CardService
+
+<MudPaper Outlined="true" Class="pa-16 pokemon-card" @onclick="ToggleOwnership">
+    <MudText Class="pokedex-id" Typo="Typo.h4">@PokedexId</MudText>
+    <MudImage Src="@ImageUrl.ToString()" Alt="@Name" Class="@CardImageCssClass" />
+    <MudText Class="mt-2">@Name</MudText>
+    <MudCheckBox T="bool"
+                 Class="pokemon-card-checkbox"
+                 Color="Color.Primary"
+                 Value="Collected"
+                 ValueChanged="ToggleOwnership" />
+</MudPaper>
