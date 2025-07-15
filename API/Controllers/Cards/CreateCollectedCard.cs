@@ -8,7 +8,7 @@ namespace API.Controllers.Cards;
 [Route("Sets/{setId}")]
 public class CreateCollectedCard(AppDbContext context) : ControllerBase
 {
-    [HttpPost("{pokedexId:int}/favourite")]
+    [HttpPost("{pokedexId:int}")]
     public async Task<IActionResult> PostAsync(int pokedexId, [FromRoute] string setId, CancellationToken cancellationToken)
     {
         await context.CollectedCards.AddAsync(new CollectedCard
